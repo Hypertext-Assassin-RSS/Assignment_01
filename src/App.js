@@ -5,11 +5,12 @@ import Register from "./page/Register/Register";
 import Dashbord from "./page/Dashboard/Dashbord";
 import Product from "./page/Product/Product";
 import File from "./component/FileUpload";
+import Cart from "./page/Cart/Cart";
 
 function App() {
   return (
     <div className="App">
-     <Product/>
+     <Cart/>
     </div>
   );
 }
