@@ -11,11 +11,88 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import CustomerService from "../../Services/CustomerService";
 
-class Register extends Component{
+class Register extends Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            formData: {
+                email: '',
+                username: '',
+                password: '',
+                name: {
+                    firstname: '',
+                    lastname: ''
+                },
+                address: {
+                    city: '',
+                    street: '',
+                    number: '',
+                    zipcode: '',
+                    geolocation: {
+                        lat: '',
+                        long: ''
+                    }
+                },
+                phone: ''
+            }
+        }
+
     }
+
+    clear = () => {
+        this.setState({
+            formData: {
+                email: '',
+                username: '',
+                password: '',
+                name: {
+                    firstname: '',
+                    lastname: ''
+                },
+                address: {
+                    city: '',
+                    street: '',
+                    number: '',
+                    zipcode: '',
+                    geolocation: {
+                        lat: '',
+                        long: ''
+                    }
+                },
+                phone: '',
+                open: false,
+                deleteId: ''
+            }
+        });
+    }
+
+    submitUser = async () => {
+        let data = this.state.formData
+        let res = await CustomerService.Register(data);
+        if (res.status === 200) {
+            this.clear();
+            this.setState({
+                alert: true,
+                message: 'Register Success!',
+                severity: 'success'
+            });
+        } else {
+            this.setState({
+                alert: true,
+                message: 'Register Failed..!',
+                severity: 'warning'
+            });
+        }
+    }
+
+
+
+
+
+
+
 
 
     render() {
@@ -32,54 +109,142 @@ class Register extends Component{
 
         return(
             <div style={RegisterContainer}>
-                <Grid container spacing={2} lg={12}  md={12} sm={12} xs={12} >
+                <Grid container spacing={2} lg={10}  md={12} sm={12} xs={12} >
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <Typography variant="h3" gutterBottom component="div">
                             Create New Account
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="First Name" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="First Name" variant="outlined"
+                                   value={this.state.formData.name.firstname}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.name
+                                       data.firstname = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Last Name" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Last Name" variant="outlined"
+                                   value={this.state.formData.name.lastname}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.name
+                                       data.lastname = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Email" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Email" variant="outlined"
+                                   value={this.state.formData.email}
+                                   onChange={(e) => {
+                                       let data = this.state.formData
+                                       data.email = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="User Name" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="User Name" variant="outlined"
+                                   value={this.state.formData.username}
+                                   onChange={(e) => {
+                                       let data = this.state.formData
+                                       data.username = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Password" type={"password"} variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Password" type={"password"} variant="outlined"
+                                   value={this.state.formData.password}
+                                   onChange={(e) => {
+                                       let data = this.state.formData
+                                       data.password = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="City" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="City" variant="outlined"
+                                   value={this.state.formData.address.city}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.address
+                                       data.city = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Street" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Street" variant="outlined"
+                                   value={this.state.formData.address.street}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.address
+                                       data.street = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Street No" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Street No" variant="outlined"
+                                   value={this.state.formData.address.number}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.address
+                                       data.number = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Zip Code" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Zip Code" variant="outlined"
+                                   value={this.state.formData.address.zipcode}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.address
+                                       data.zipcode = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Lat Value" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Lat Value" variant="outlined"
+                                   value={this.state.formData.address.geolocation.lat}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.address.geolocation
+                                       data.lat = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Long Value" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Long Value" variant="outlined"
+                                   value={this.state.formData.address.geolocation.long}
+                                   onChange={(e) => {
+                                       let data = this.state.formData.address.geolocation
+                                       data.long = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField id="outlined-basic" fullWidth={true} label="Mobile No" variant="outlined" />
+                        <TextField id="outlined-basic" fullWidth={true} label="Mobile No" variant="outlined"
+                                   value={this.state.formData.phone}
+                                   onChange={(e) => {
+                                       let data = this.state.formData
+                                       data.phone = e.target.value
+                                       this.setState({data});
+                                   }}
+                        />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12}  display={"flex"} justifyContent={"flex-end"} marginBottom={1}>
-                        <Button variant="contained" color={"warning"}>Clear</Button>
-                        <Button variant="contained" style={{marginLeft:"1rem"}}>Register</Button>
+                    <Grid item xs={12} sm={12} md={12} lg={12}  display={"flex"} justifyContent={"flex-end"} marginBottom={2}>
+                        <Button variant="contained" color={"warning"} onClick={this.clear}>Clear</Button>
+                        <Button variant="contained" style={{marginLeft:"1rem"}}
+                        onClick={() => {
+                            this.valid()
+                        }}
+                        >Register</Button>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2} lg={12}  md={12} sm={12} xs={12}>
+                <Grid container spacing={2} lg={10}  md={12} sm={12} xs={12}>
                     <TableContainer >
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
@@ -112,5 +277,6 @@ class Register extends Component{
         )
     }
 }
+
 
 export default Register
