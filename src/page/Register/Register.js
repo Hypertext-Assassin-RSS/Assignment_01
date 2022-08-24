@@ -2,6 +2,7 @@ import {Component} from "react";
 import {
     Button,
     Grid,
+    Snackbar,
     Table,
     TableBody,
     TableCell,
@@ -87,9 +88,14 @@ class Register extends Component {
         }
     }
 
-
-
-
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({
+            alert: false,
+        });
+    };
 
 
 
@@ -239,7 +245,7 @@ class Register extends Component {
                         <Button variant="contained" color={"warning"} onClick={this.clear}>Clear</Button>
                         <Button variant="contained" style={{marginLeft:"1rem"}}
                         onClick={() => {
-                            this.valid()
+                            this.submitUser()
                         }}
                         >Register</Button>
                     </Grid>
@@ -273,6 +279,13 @@ class Register extends Component {
                         <Button variant="contained" color={"error"} style={{marginLeft:"1rem"}}>Delete</Button>
                     </Grid>
                 </Grid>
+                <Snackbar
+                    open={this.state.alert}
+                    autoHideDuration={2000}
+                    onClose={this.handleClose}
+                    message={this.state.message}
+                    severity={this.state.severity}
+                />
             </div>
         )
     }
