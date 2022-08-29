@@ -1,7 +1,7 @@
 import {Component} from "react";
 import {
     Button,
-    Grid, IconButton,
+    Grid,
     Table,
     TableBody,
     TableCell,
@@ -9,13 +9,9 @@ import {
     TableHead,
     TableRow,
     TextField,
-    Tooltip,
     Typography
 } from "@mui/material";
 import CustomerService from "../../Services/CustomerService";
-import MySnackbar from "../../component/MySnackbar";
-import DeleteIcon from '@mui/icons-material/Delete'
-import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 
 class Register extends Component {
     constructor(props, context) {
@@ -40,13 +36,7 @@ class Register extends Component {
                     }
                 },
                 phone: ''
-            },
-            open:false,
-            message:'',
-            severity:'',
-
-            data:[]
-
+            }
         }
 
     }
@@ -78,54 +68,32 @@ class Register extends Component {
         });
     }
 
-    handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            this.setState({
-                open: false,
-            })
-        }
-
-    }
-
-
-
-        submitUser = async () => {
+    submitUser = async () => {
         let data = this.state.formData
         let res = await CustomerService.Register(data);
         if (res.status === 200) {
             this.clear();
             this.setState({
-                open: true,
+                alert: true,
                 message: 'Register Success!',
                 severity: 'success'
             });
         } else {
             this.setState({
-                open: true,
+                alert: true,
                 message: 'Register Failed..!',
                 severity: 'warning'
             });
         }
     }
 
-    loadData = async () => {
-        let response = await CustomerService.getAllUsers();
-        if (response.status == 200){
-            this.setState({
-                data:response.data
-            })
-        }else {
-            this.setState({
-                open: true,
-                message: 'Load Data Failed..!',
-                severity: 'warning'
-            });
-        }
-    }
 
-    componentDidMount() {
-        this.loadData()
-    }
+
+
+
+
+
+
 
     render() {
         const RegisterContainer = {
@@ -271,13 +239,13 @@ class Register extends Component {
                         <Button variant="contained" color={"warning"} onClick={this.clear}>Clear</Button>
                         <Button variant="contained" style={{marginLeft:"1rem"}}
                         onClick={() => {
-                            this.submitUser()
+                            this.valid()
                         }}
                         >Register</Button>
                     </Grid>
                 </Grid>
                 <Grid container spacing={2} lg={10}  md={12} sm={12} xs={12}>
-                    <TableContainer style={{maxHeight:350}}>
+                    <TableContainer >
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -293,41 +261,10 @@ class Register extends Component {
                                     <TableCell >Lat Value</TableCell>
                                     <TableCell >Long Value</TableCell>
                                     <TableCell >Mobile No</TableCell>
-                                    <TableCell >Delete</TableCell>
-                                    <TableCell >Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.data.map((row) => (
-                                    <TableRow>
-                                        <TableCell>{row.name.firstname}</TableCell>
-                                        <TableCell >{row.name.lastname}</TableCell>
-                                        <TableCell >{row.email}</TableCell>
-                                        <TableCell >{row.username}</TableCell>
-                                        <TableCell >{row.password}</TableCell>
-                                        <TableCell >{row.address.city}</TableCell>
-                                        <TableCell >{row.address.street}</TableCell>
-                                        <TableCell >{row.address.number}</TableCell>
-                                        <TableCell >{row.address.zipcode}</TableCell>
-                                        <TableCell >{row.address.geolocation.lat}</TableCell>
-                                        <TableCell >{row.address.geolocation.long}</TableCell>
-                                        <TableCell >{row.phone}</TableCell>
-                                        <TableCell >
-                                            <Tooltip title="Delete">
-                                            <IconButton>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        </TableCell>
-                                        <TableCell >
-                                            <Tooltip title="Edit">
-                                                <IconButton>
-                                                    <ModeEditOutlineRoundedIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -336,7 +273,6 @@ class Register extends Component {
                         <Button variant="contained" color={"error"} style={{marginLeft:"1rem"}}>Delete</Button>
                     </Grid>
                 </Grid>
-                <MySnackbar open={this.state.open} message={this.state.message} severity={this.state.severity} handelclose={this.handleClose}/>
             </div>
         )
     }
