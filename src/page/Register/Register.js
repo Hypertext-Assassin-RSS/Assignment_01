@@ -44,8 +44,9 @@ class Register extends Component {
             message:'',
             severity:'',
 
-            data:[]
+            data:[],
 
+            btnLabel:'Register'
         }
 
     }
@@ -71,9 +72,8 @@ class Register extends Component {
                     }
                 },
                 phone: '',
-                open: false,
-                deleteId: ''
-            }
+            },
+            btnLabel:'Register'
         });
     }
 
@@ -144,7 +144,8 @@ class Register extends Component {
                     }
                 },
                 phone: data.phone
-            }
+            },
+            btnLabel:'Update'
         });
     }
 
@@ -301,7 +302,7 @@ class Register extends Component {
                         onClick={() => {
                             this.submitUser()
                         }}
-                        >Register</Button>
+                        >{this.state.btnLabel}</Button>
                     </Grid>
                 </Grid>
                 <Grid container spacing={2} lg={10}  md={12} sm={12} xs={12}>
